@@ -1,0 +1,25 @@
+{
+Note: 
+This duty cycle is the first draft. It has not yet been modified so that
+requested power is equal to power consumption.
+}
+
+GPS: (0,0) , (1,100) ;
+P31us: (0,0) , (1,100) ;
+Nanomind: (0,0) , (1,100) ;
+Nanohub: (0,0) , (1,100) ;
+UHF_Rx: (0,0) , (1,100) ;
+UHF_Tx: (0,0) , (1,100) ;
+Active_THCS: (0,0) , (1,100) ;
+DFGM: (0,0) , (1,100) ;
+MNLP_Operational: (0,0) , (1,100) ;
+MNLP_Standby: (0,0) , (1,100) ;
+SSADCS_ARE: (0,0) , (1,100) ;
+SSADCS_AFSE: (0,0) , (1,100) ;
+SSADCS_Detumble: (0,0) , (1,100) ;
+SSADCS_YMC_Eclipse: (0,0) , (1,100) ;
+SSADCS_YMC_Daylight: (0,0) , (1,100) ;
+Teledyne: (0,0) , (1,100) ;
+UofA_OBC: (0,0) , (1,100) ;
+
+

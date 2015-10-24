@@ -1,0 +1,24 @@
+{
+This file contains the starting points of each component's duty cycle, 
+as well as the direction of expansion. There are three possible directions:
+left, right, and outwards. If more than one starting point is present,
+then the duty cycle is split up and distributed evenly.
+}
+
+GPS: 1 , right ; 
+P31us: 1 , right ;
+Nanomind: 1, right ;
+Nanohub: 1 , right ;
+UHF_Rx: 1 , right ;
+UHF_Tx: 35 , outwards;
+Active_THCS: 70 , right ;
+DFGM: 1 , right ; 
+MNLP_Operational: 1 , right ;
+MNLP_Standby: 92 , right ;
+SSADCS_ARE: 1 , right ;
+SSADCS_AFSE: 1 , right ;
+SSADCS_Detumble: 1 , right ;
+SSADCS_YMC_Eclipse: 92 , right ;
+SSADCS_YMC_Daylight: 1 , right ; 
+Teledyne: 20 , right ;
+UofA_OBC: 60 , right ;
