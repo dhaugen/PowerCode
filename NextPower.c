@@ -62,14 +62,14 @@ struct Estimated_values estimation(int T_orbit, double batt_E[], double P_solar[
 
 	//int T_orbit = 92;
 	//int t_tick = 1;
-	double P_wasted = 0;
+	double P_wasted;
 	
 	//double wasted[T_orbit];
 
 	double *wasted;
-	//TEMPORARY CHANGE TO mxMalloc - hopefully stops Matlab crashes
-	wasted = (double *)mxMalloc(T_orbit * sizeof(double));
-	//wasted = (double *)malloc(T_orbit * sizeof(double));
+	//Using mxMalloc as runs better with matlab
+	//wasted = (double *)mxMalloc(T_orbit * sizeof(double));
+	wasted = (double *)malloc(T_orbit * sizeof(double));
 	if (wasted == NULL)
 	{
 		/*Failed to allocate memory*/
@@ -131,18 +131,18 @@ struct Estimated_values estimation(int T_orbit, double batt_E[], double P_solar[
 		//current drawn by load + all reamining currentIn into battery
 
 		double currentDraw = load_I[i] + batt_I[i];
-		double currentIn = P_solar[i] * solar_eff / batt_V[i];
+		double currentIn = -1 * P_solar[i] * solar_eff / batt_V[i];
 
 		if (V_solar >= 16 && currentDraw + currentIn < 0)
 		{
-			wasted[i] = batt_V[i] * -(currentIn + currentDraw);
-			if (i > 1)
+			wasted[i] = batt_V[i] * -1 * (currentIn + currentDraw);
+			if (i > 0)
 			{
 				P_solar[i] = P_solar[i - 1];
 			}
 		}
 	}
-
+	P_wasted = sum_array(wasted, sizeof(wasted)/sizeof(wasted[0]))/T_orbit;
 
 	//-------------End of Update Filter-----------------
 
@@ -157,7 +157,7 @@ struct Estimated_values estimation(int T_orbit, double batt_E[], double P_solar[
 	//Checking the discrepency between energies to find a Next orbit
 	//modifier, P_est is being assumed as what is being used and not
 	//what the other half of the program would return as used
-	double E_dis = curr_Energy + sum_array(P_solar, sizeof(P_solar) / sizeof(P_solar[0])) * 60 * solar_eff - lastPower * 60 * T_orbit / conv_eff * batt_eff;
+	double E_dis = curr_Energy + (sum_array(P_solar, sizeof(P_solar) / sizeof(P_solar[0])) * 60 * solar_eff) - (lastPower * 60 * T_orbit / conv_eff) * batt_eff;
 	double overdrawn_mod = 0;
 
 	//Determines if energy was overspent and converts that
@@ -187,10 +187,10 @@ struct Estimated_values estimation(int T_orbit, double batt_E[], double P_solar[
 	//P_est update
 	//Equation is counter to Kalman filter documentation, using mean
 	//instead of max of solar power
-	P_wasted = k1 * P_wasted + (1 - k1) * sum_array(P_solar, sizeof(P_solar) / sizeof(P_solar[0])) / (sizeof(P_solar) / sizeof(P_solar[0])) * solar_eff - lastPower;
+	P_wasted = k1 * P_wasted + (1 - k1) * sum_array(P_solar, sizeof(P_solar) / sizeof(P_solar[0])) / (sizeof(P_solar)/sizeof(P_solar[0])) * solar_eff - lastPower;
 	double E_bat_meas = batt_E[T_orbit - 1];
 
-	double E_bat_est = k2 * E_bat_meas + (1 - k2) * (curr_Energy + sum_array(P_solar, sizeof(P_solar) / sizeof(P_solar[0])) * 60 * 0.92) - lastPower * 60 * T_orbit;
+	double E_bat_est = k2 * E_bat_meas + (1 - k2) * (curr_Energy);
 
 	//Last Orbit comparison for how close the prediction was
 	double Accuracy_mod = P_solar_avg - lastPower;
@@ -201,17 +201,18 @@ struct Estimated_values estimation(int T_orbit, double batt_E[], double P_solar[
 	double P_est = P_solar_avg + k3 *(E_bat_meas - E_bat_est) / (T_orbit * 60) + k4 * (E_bat_meas_avg - k5) / (T_orbit * 60) + P_wasted * k6 + overdrawn_mod * k7 + Accuracy_mod * k8;
 
 
+	//Correction for negative value
 	if (P_est < 0)
 	{
-		P_est = (-1)*P_est;
+		P_est = -1*P_est;
 	}
 
 	Output.Energy = E_bat_est;
 	Output.Power = P_est;
 
-	//free(wasted);
+	free(wasted);
 	//TEMPORARY CHANGE TO MATLAB EQUIVALENT
-	mxFree(wasted);
+	//mxFree(wasted);
 
 
 	return Output;
