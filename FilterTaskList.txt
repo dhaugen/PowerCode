@@ -1,0 +1,42 @@
+Filter Task List
+
+NEED to set a complete task list, as the filter has had a lot of work on it, a list of items to the first full
+version of the code should be possible.
+
+With all future work, should try to keep as close to what will be running in the satellite as possible.  Once a set
+of code is implemented, any changes that it would require to run on the satellite should be noted or coded in a
+comment block.  With the implementation of a data gathering and processing module as noted below, the effect on how
+the filter interacts with input should be non existant as the module is in place to seperate this interaction.
+	-> Modularity is important to maintain for generality ,and error tracking.  Any task that performs some 
+	type of major processing should be entered into its own function to be called from the main filter code.
+
+Need to convert all double values to 32 bit integers, and modify any constants that take non milli values in.  The
+inputs will have to be converted in alberts sim to units of milli or micro volts/watts/amps to and from the filter
+	- The satellite works with and provides data in milli
+	- Satellite uses 16 bit unsigned integers to store required data
+	- Examples of data retrieval put the data at 5 digits
+
+Data gathering and processing module
+	- The filter is required to run every "tick" to gather data from the power board, and process the gathered
+	data into compact data to be used in the filter.
+	- This process is achieved by a seperate module that will request data, process it, and store it for use
+	in the filter and as part of the information package that will be useful to report to ground.
+	- The more information that can be reported the better, any processing of data on the satellite is 
+	restricted to what the filter needs.  The rest of the data should be raw sets that can be sent to ground.
+
+Build output structure for all testing output, this output will be reported from the satellite so build an actual
+reporting tool rather than testing tools, can serve as both.
+	- Need to report data process, all instantaneous versions of averages being taken in the data collection
+	module, all collectable data could be useful including orbital data on power availability usage, the
+	resultant data can be sorted through on the ground.
+	- Need to report filter process.  The values of the main components contributing to the decision of power
+	output, as well as the power estimation for each orbit.  Here the constants should be retrievable.
+	-> After all information can be recovered from the satellite, Need to develop the ability to change constant
+	values such as filter equaiton constants, converter efficiencies, and voltage definitions.
+
+Design Review
+	- Perform design review of the filter process exclusively.
+	-> Compile a document on the entire filter, data gathering, and reporting tool.  Will include the filter
+	design review, as well as the breakdown of the entire process.  This is at the least the start of the
+	documentation for this power software module.
+
