@@ -193,7 +193,7 @@ x_res = 1;      %(minutes)
 x_start = 1;    %(minutes)
 % Get number of orbits in order to obtain x_end.
 while 1
-    x_end = input('Simulate for how many orbits (Max: 185)? ');     %(minutes)
+    x_end = input('Simulate for how many orbits (Max: 185)? ','s');     %(minutes)
     x_end = str2double(x_end);
     if isnan(x_end)
         disp(' ');
@@ -271,6 +271,8 @@ P_out = zeros(1,Data_Points);
 firstRun = TRUE;
 lastPower = 2.0; % W
 n = 2;
+instAvgPower = 0;
+filterStats = 0;
 while n <= length(X_t)+ 1
     if firstRun 
         P_est = lastPower;
@@ -290,7 +292,13 @@ while n <= length(X_t)+ 1
                 
             end
             
-            inputArray.P_solar = total(n-92:n-1);
+            if n < 94
+                inputArray.P_solar = horzcat(total(n-92:n-1),total(n-92:n-1));
+            else
+                inputArray.P_solar = total(n-184:n-1);
+            end
+            
+            
             inputArray.batt_E = Y_c(n-92:n-1) * 60 / x_res;
             %inputArray.batt_E = inputArray.batt_E * 3600 * 14.8 / 2; (FLAG_2)
             %Ideally, it would be multiplied by current battery voltage as
@@ -300,18 +308,25 @@ while n <= length(X_t)+ 1
             inputArray.batt_V = Y_v(n-92:n-1);
             inputArray.load_I = Y_i(n-92:n-1);
             
-            for m = 1:92
-                subArray(m).P_solar = inputArray.P_solar(m);
-                subArray(m).batt_E = inputArray.batt_E(m);
-                subArray(m).inc_I = inputArray.inc_I(m);
-                subArray(m).batt_I = inputArray.batt_I(m);
-                subArray(m).batt_V = inputArray.batt_V(m);
-                subArray(m).load_I = inputArray.load_I(m);
+%             for m = 1:92
+%                 subArray(m).P_solar = inputArray.P_solar(m);
+%                 subArray(m).batt_E = inputArray.batt_E(m);
+%                 subArray(m).inc_I = inputArray.inc_I(m);
+%                 subArray(m).batt_I = inputArray.batt_I(m);
+%                 subArray(m).batt_V = inputArray.batt_V(m);
+%                 subArray(m).load_I = inputArray.load_I(m);
+%             end
+%             inputArray = subArray;
+            
+            [P_est,fStats,powerStats] = NextPower1(inputArray,lastPower);
+            
+            instAvgPower = horzcat(instAvgPower, powerStats);
+            if length(filterStats)<5
+                filterStats = fStats;
+            else
+                filterStats = vertcat(filterStats, fStats);
             end
-            inputArray = subArray;
-            
-            P_est = NextPower1(inputArray,lastPower);
-            
+ 
 %             if 40 > (n-1)/92 && (n-1)/92 >= 20
 %                 P_est = P_est * 0.9;
 %             elseif 60 > (n-1)/92 && (n-1)/92 >= 40
@@ -384,6 +399,7 @@ while 1
     disp('4. Solar Power In');
     disp('5. P_est');
     disp('6. Power used by load (W)');
+    disp('7. Filter Stats');
     disp(' ');
     graphOption = input('What would you like to display?  ','s');
     if strcmp(graphOption,'1')
@@ -446,6 +462,42 @@ while 1
         xlabel('Time Elapsed (minutes)');
         ylabel('Power Consumption (W)');
         title('Power Consumption');
+    elseif strcmp(graphOption,'7')
+        % Display Filter Options
+        clf;
+        subplot(2,3,1)
+        plot(instAvgPower);
+        xlabel('Time (minutes)')
+        ylabel('Average Power (Watts)')
+        title('Instantaneous Average Power')
+        % ------------
+        subplot(2,3,2)
+        plot(filterStats(:,1))
+        xlabel('Time (Orbits)')
+        ylabel('Average Power (Watts)')
+        title('Orbital Average Power')
+        % ------------
+%         subplot(2,3,3)
+%         xlabel()
+%         ylabel()
+%         title()
+%         % ------------
+%         subplot(2,3,4)
+%         xlabel()
+%         ylabel()
+%         title()
+        % ------------
+        subplot(2,3,5)
+        plot(filterStats(:,4))
+        xlabel('Time (Orbits)')
+        ylabel('Power wasted (Watts)')
+        title('Wasted Power per Orbit')
+        % ------------
+        subplot(2,3,6)
+        plot(filterStats(:,5))
+        xlabel('Time (Orbits)')
+        ylabel('Power overdrawn (Watts)')
+        title('Overdrawn Power per Orbit')
     end
     disp(' ');
     input('Press <enter> to return to menu.','s');

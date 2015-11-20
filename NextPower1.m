@@ -1,4 +1,4 @@
-function [P_est testResults] = NextPower1(tState, lastPower)
+function [P_est testResults powerStats] = NextPower1(tState, lastPower)
     % Uploadable Variables
     % T_orbit, t_tick(unused atm), batt_eff, solar_eff, conv_eff, Vmax,
     % k1, k2, k3, k4 ,k5 ,k6 ,k7 ,k8
@@ -24,6 +24,7 @@ function [P_est testResults] = NextPower1(tState, lastPower)
     %Test Variables
     % testResults, powerStats
     powerStats = zeros(1,T_orbit);  %Returns Average energy per interval
+                                    %for reporting purposes
     
     
     wasted = zeros(1,T_orbit);
@@ -101,12 +102,10 @@ function [P_est testResults] = NextPower1(tState, lastPower)
     
     %Get Average Energy and Power for last orbit
     P_solar_avg = lastPower;
-    for i = 1:length([State.P_solar])
-        P_solar_avg = P_solar_avg * ((T_orbit-1)/T_orbit) + ...
-            State(i).P_solar * solar_eff * 1/T_orbit;
-        test = State(i).P_solar;
+    for i = 1:T_orbit
+        powerStats(i)= mean(tState.P_solar(i:i+T_orbit)) * solar_eff;
     end
-    
+    P_solar_avg = powerStats(T_orbit);
     E_bat_meas_avg = sum([State.batt_E])/T_orbit;
     
     %---------------------- Battery Control ---------------------------
@@ -158,6 +157,7 @@ function [P_est testResults] = NextPower1(tState, lastPower)
     if P_est < 0
         P_est = 0;
     end
+
     
     % ------------------------ Testing output --------------------------
     stat1 = [stat1 P_solar_avg];
@@ -174,7 +174,6 @@ function [P_est testResults] = NextPower1(tState, lastPower)
     testResults(3) = stat3;
     testResults(4) = stat6;
     testResults(5) = stat7;
-    
     
     sprintf(strcat('P_solar_avg:             %f\nE_bat_meas - E_bat_est: %f\nE_bat_meas - Average:   %f\n', ...
         'E_bat_meas:              %f\nE_bat_est:               %f\nPower wasted:            %f\n', ...
