@@ -1,0 +1,212 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+double sum_array(double a[], int num_elements);
+double maximum(double a[], int num_elements);
+
+//This is a test file to find errors.
+
+//This is a backup of NextPowerDebug.
+
+//void main(int T_orbit, double batt_E[], double P_solar[], double inc_I[], double load_I[], double batt_I[], double batt_V[], double lastPower)
+
+int main()
+{
+	
+	int T_orbit = 92;
+	double P_solar[92] = { 0.163496865, 0.672033348, 1.177342556, 1.676906411, 2.16850823, 2.649490763, 3.117974578, 3.571031507, 4.006900278, 4.423680314, 4.819218339, 5.191623562, 5.539114885, 5.860029238, 6.152683441, 6.41516327, 6.646801047, 6.846490543, 7.013276765, 7.146360405, 7.245819654, 7.30955233, 7.338417177, 7.331796837, 7.289549195, 7.212144627, 7.10022265, 6.953509434, 6.774149121, 6.560817719, 6.316570557, 6.041854366, 5.737982538, 5.405989968, 5.048418647, 4.666990659, 4.261559594, 3.836050928, 3.39244267, 2.932221867, 2.457362165, 1.971095353, 1.475108293, 0.972015606, 0.464093624, 0.002707084, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.438567988 };
+	double batt_E[92] = { 138528, 138492.3827, 138482.5362, 138498.1675, 138528, 138528, 138528, 138528, 138528, 138528, 138528, 138528, 138528, 138528, 138528, 138528, 138528, 138528, 138528, 138528, 138528, 138528, 138528, 138528, 138528, 138528, 138528, 138528, 138528, 138528, 138528, 138528, 138528, 138528, 138528, 138528, 138528, 138528, 138528, 138528, 138528, 138528, 138528, 138507.6818, 138461.4596, 138391.7067, 138321.8158, 138251.9248, 138182.0338, 138112.1429, 138042.2519, 137972.361, 137902.47, 137832.579, 137762.6881, 137692.7971, 137622.9061, 137553.0152, 137483.1242, 137413.2332, 137343.3423, 137273.4513, 137203.5603, 137133.6694, 137063.7784, 136993.8875, 136923.9965, 136854.1055, 136784.2146, 136714.3236, 136644.4326, 136574.5417, 136504.6507, 136434.7597, 136364.8688, 136294.9778, 136225.0869, 136155.1959, 136085.3049, 136015.414, 135945.523, 135875.632, 135805.7411, 135735.8501, 135665.9591, 135596.0682, 135526.1772, 135456.2862, 135386.3953, 135316.5043, 135246.6134, 135199.0894 };
+	double inc_I[92] = { 0.009062649, 0.03725914, 0.065278684, 0.092968371, 0.120200646, 0.146861559, 0.172829668, 0.197942663, 0.222102916, 0.245205078, 0.267129794, 0.287772255, 0.307033737, 0.324822054, 0.341043908, 0.355593194, 0.368432901, 0.379501711, 0.388746689, 0.39612353, 0.401636567, 0.405169276, 0.406769258, 0.406402291, 0.4040605, 0.399769956, 0.393566109, 0.38543378, 0.375491818, 0.363666836, 0.350128189, 0.334900641, 0.318056992, 0.299654608, 0.279834391, 0.258691797, 0.236218709, 0.212632718, 0.188043464, 0.162533375, 0.13621185, 0.109258029, 0.081765412, 0.053885751, 0.025735396, 0.000150181, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.024725787 };
+	double batt_I[92] = { 0.089063175, 0.060886444, 0.032872349, 0.005174009, 0.067484919, 0.094145833, 0.120113942, 0.145226936, 0.169387189, 0.192489352, 0.214414067, 0.235056529, 0.254318011, 0.272106328, 0.288328182, 0.302877468, 0.315717175, 0.326785985, 0.336030963, 0.343407804, 0.348920841, 0.35245355, 0.354053531, 0.353686565, 0.351344774, 0.34705423, 0.340850383, 0.332718054, 0.322776092, 0.310951109, 0.297412463, 0.282184915, 0.051764717, 0.070167101, 0.227118665, 0.205976071, 0.183502983, 0.159916992, 0.135327738, 0.109817649, 0.083496124, 0.056542302, 0.029049686, 0.001163351, 0.027002127, 0.052610013, 0.052782727, 0.052805078, 0.052827249, 0.052849239, 0.05287105, 0.052892682, 0.052914137, 0.052935416, 0.052956518, 0.052977446, 0.052998199, 0.053018779, 0.082308984, 0.053059424, 0.053079491, 0.053099388, 0.053119117, 0.053138678, 0.053158073, 0.053177302, 0.053196367, 0.053215268, 0.496877036, 0.053252583, 0.053271, 0.053289256, 0.053307355, 0.053325296, 0.05334308, 0.05336071, 0.053378184, 0.053395506, 0.053412675, 0.053429693, 0.053446561, 0.05346328, 0.053479852, 0.053496276, 0.053512554, 0.053528688, 0.053544678, 0.053560526, 0.053576232, 0.053591798, 0.108688965, 0.303361544 };
+	double batt_V[92] = { 16.597478, 16.59379888, 16.59278471, 16.59439529, 16.597478, 16.597478, 16.597478, 16.597478, 16.597478, 16.597478, 16.597478, 16.597478, 16.597478, 16.597478, 16.597478, 16.597478, 16.597478, 16.597478, 16.597478, 16.597478, 16.597478, 16.597478, 16.597478, 16.597478, 16.597478, 16.597478, 16.597478, 16.597478, 16.597478, 16.597478, 16.597478, 16.597478, 16.597478, 16.597478, 16.597478, 16.597478, 16.597478, 16.597478, 16.597478, 16.597478, 16.597478, 16.597478, 16.597478, 16.59537717, 16.59061814, 16.58348927, 16.57640971, 16.56939323, 16.56243943, 16.55554788, 16.54871819, 16.54194994, 16.53524271, 16.5285961, 16.52200968, 16.51548305, 16.50901578, 16.50260746, 16.49625767, 16.489966, 16.48373202, 16.47755532, 16.47143548, 16.46537208, 16.45936469, 16.4534129, 16.44751629, 16.44167444, 16.43588692, 16.43015332, 16.42447322, 16.41884619, 16.41327181, 16.40774967, 16.40227934, 16.3968604, 16.39149243, 16.38617502, 16.38090774, 16.37569018, 16.37052191, 16.36540252, 16.36033159, 16.35530871, 16.35033345, 16.3454054, 16.34052414, 16.33568927, 16.33090036, 16.326157, 16.32145878, 16.31828969 };
+	double load_I[92] = { 0.098125824, 0.098145584, 0.098151033, 0.09814238, 0.052715726, 0.052715726, 0.052715726, 0.052715726, 0.052715726, 0.052715726, 0.052715726, 0.052715726, 0.052715726, 0.052715726, 0.052715726, 0.052715726, 0.052715726, 0.052715726, 0.052715726, 0.052715726, 0.052715726, 0.052715726, 0.052715726, 0.052715726, 0.052715726, 0.052715726, 0.052715726, 0.052715726, 0.052715726, 0.052715726, 0.052715726, 0.052715726, 0.369821709, 0.369821709, 0.052715726, 0.052715726, 0.052715726, 0.052715726, 0.052715726, 0.052715726, 0.052715726, 0.052715726, 0.052715726, 0.0527224, 0.052737523, 0.052760194, 0.052782727, 0.052805078, 0.052827249, 0.052849239, 0.05287105, 0.052892682, 0.052914137, 0.052935416, 0.052956518, 0.052977446, 0.052998199, 0.053018779, 0.082308984, 0.053059424, 0.053079491, 0.053099388, 0.053119117, 0.053138678, 0.053158073, 0.053177302, 0.053196367, 0.053215268, 0.496877036, 0.053252583, 0.053271, 0.053289256, 0.053307355, 0.053325296, 0.05334308, 0.05336071, 0.053378184, 0.053395506, 0.053412675, 0.053429693, 0.053446561, 0.05346328, 0.053479852, 0.053496276, 0.053512554, 0.053528688, 0.053544678, 0.053560526, 0.053576232, 0.053591798, 0.108688965, 0.32808733 };
+	double lastPower = 2;
+
+	//int t_tick = 1;
+	double P_wasted;
+
+	//double wasted[T_orbit];
+
+	double *wasted;
+	//Using mxMalloc as runs better with matlab
+	//wasted = (double *)mxMalloc(T_orbit * sizeof(double));
+	wasted = (double *)malloc(T_orbit * sizeof(double));
+	if (wasted == NULL)
+	{
+		/*Failed to allocate memory*/
+	}
+
+	double batt_eff = 0.85;
+	double solar_eff = 0.92;
+	double conv_eff = 0.955;
+
+	double Vmax = 16.6;
+
+
+	//Weight Coefficients
+	//k1 Balance between measured, and derived value of power wasted
+	double k1 = 0.95;
+	//k2 Balance between measured, and derived value of battery energy
+	double k2 = 0.8;
+	//k3 Weight for the effect of battery energy measured vs estimated
+	double k3 = 0.2;
+	//k4 Weight for the effect of average battery measurement vs norm.
+	double k4 = 0.25;
+	//k5 Coefficent determining the normal battery operation level
+	double k5 = 0.90 * 2.6 * 3600 * 16.1;
+	//k6 Coefficent to control the responsivness based on under use
+	double k6 = 0.9;
+	//k7 Coefficient to control the reponsivness based on over use
+	double k7 = 0.9;
+	//k8 Controls the response to the accuracy of last power prediciton
+	double k8 = 0.1;
+
+	//Initializing tracking of energy - should make a determination on the
+	//first pass of the filter and track from there, this would be a calc to determine capacity from voltage
+	double curr_Energy = 2.6 * 3600 * 16.6;
+
+	//this is ideal, will need to dynamically keep track of max battery capacity
+	double Full_Charge = 2.6 * 3600 * 16.6;
+
+	//-------------Update Filter------------------------
+	//emulates updates every tick (orbit fraction)
+	int i;
+	for (i = 0; i < T_orbit; i++)
+	{
+		//Deriving solar voltage for power wasted,
+		//this is a value that can be called directly from the satellite rather than derived
+		double V_solar = P_solar[i] / inc_I[i];
+
+
+		//Battery current is always positive data, determining whether or
+		//not the battery is charging or discharging
+		if (load_I[i] > inc_I[i])
+		{
+			batt_I[i] = batt_I[i] * -1;
+		}
+
+		//Battery current is the line to the battery, normally
+
+		//Check solar power for wasted input to determine current state
+		//currentDraw:  all current drawn by the system.Ideal case use -
+		//current drawn by load + all reamining currentIn into battery
+
+		double currentDraw = load_I[i] + batt_I[i];
+		double currentIn = -1 * P_solar[i] * solar_eff / batt_V[i];
+
+		if (V_solar >= 16 && currentDraw + currentIn < 0)
+		{
+			wasted[i] = batt_V[i] * -1 * (currentIn + currentDraw);
+			if (i > 0)
+			{
+				P_solar[i] = P_solar[i - 1];
+			}
+		}
+	}
+	P_wasted = sum_array(wasted, sizeof(wasted) / sizeof(wasted[0])) / T_orbit;
+
+	//-------------End of Update Filter-----------------
+
+
+
+	//Get Average Energy and Power for last orbit
+	//double P_solar_avg = solar_eff*sum_array(P_solar, sizeof(P_solar) / sizeof(P_solar[0])) / T_orbit;
+	//(got changed)
+
+	double P_solar_avg = lastPower;
+	for (i = 0; i < sizeof(P_solar)/sizeof(P_solar[0]); i++)
+	{
+		P_solar_avg = P_solar_avg*((T_orbit - 1) / T_orbit) + P_solar[i] * solar_eff / T_orbit;
+	}
+	double E_bat_meas_avg = sum_array(batt_E, sizeof(batt_E) / sizeof(batt_E[0])) / T_orbit;
+
+	//--------------Battery Control----------------------
+	//Energy control (Like power wasted for Energy)
+	//Checking the discrepency between energies to find a Next orbit
+	//modifier, P_est is being assumed as what is being used and not
+	//what the other half of the program would return as used
+	double E_dis = curr_Energy + (sum_array(P_solar, sizeof(P_solar) / sizeof(P_solar[0])) * 60 * solar_eff) - (lastPower * 60 * T_orbit / conv_eff) * batt_eff;
+	double overdrawn_mod = 0;
+
+	//Determines if energy was overspent and converts that
+	//value into an orbital power correction.
+
+	if (E_dis < Full_Charge)
+	{
+		overdrawn_mod = (E_dis - Full_Charge) / (T_orbit * 60);
+	}
+
+
+	//Updates current energy as well as imposes physical limits of the
+	//battery on the calculated value.  Wasted amounts of energy are
+	//accounted for in overdrawn_mod.
+	curr_Energy = E_dis;
+	if (curr_Energy > 155376)
+	{
+		//Physical limitation of 2.6 Ah in J
+		curr_Energy = 155376;
+	}
+	else if (curr_Energy < 0);
+	{
+		curr_Energy = 0;
+	}
+	//-----------(end Battery Control)------------------
+
+	//P_est update
+	//Equation is counter to Kalman filter documentation, using mean
+	//instead of max of solar power
+	P_wasted = k1 * P_wasted + (1 - k1) * (sum_array(P_solar, sizeof(P_solar) / sizeof(P_solar[0])) / (sizeof(P_solar) / sizeof(P_solar[0])) * solar_eff - lastPower);
+	double E_bat_meas = batt_E[T_orbit - 1];
+
+	double E_bat_est = k2 * E_bat_meas + (1 - k2) * (curr_Energy);
+
+	//Last Orbit comparison for how close the prediction was
+	double Accuracy_mod = P_solar_avg - lastPower;
+
+	//Dividing energy estimates by T_orbit*60 so they become power as these are
+	//energy estimates per orbit
+
+	double P_est = P_solar_avg + k3 *(E_bat_meas - E_bat_est) / (T_orbit * 60) + k4 * (E_bat_meas_avg - k5) / (T_orbit * 60) + P_wasted * k6 + overdrawn_mod * k7 + Accuracy_mod * k8;
+
+
+	//Correction for negative value
+	if (P_est < 0)
+	{
+		P_est = 0;
+	}
+	
+
+	free(wasted);
+	//TEMPORARY CHANGE TO MATLAB EQUIVALENT
+	//mxFree(wasted);
+
+
+	return 0;
+}
+
+
+double sum_array(double a[], int num_elements)
+{
+	int i;
+	double sum = 0;
+	for (i = 0; i < num_elements; i++)
+	{
+		sum = sum + a[i];
+	}
+	return(sum);
+}
+
+double maximum(double a[], int num_elements)
+{
+	int i;
+	double largest = a[0];
+	for (i = 1; i < num_elements; i++)
+	{
+		if (a[i] > largest)
+		{
+			largest = a[i];
+		}
+	}
+
+	return(largest);
+}
