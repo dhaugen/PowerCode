@@ -17,7 +17,7 @@ struct Estimated_values
 
 struct Estimated_values estimation(int T_orbit, double batt_E[], double P_solar[], double inc_I[], double load_I[], double batt_I[], double batt_V[], double lastPower);
 
-	
+
 void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 {
 	//declare variables
@@ -183,8 +183,8 @@ struct Estimated_values estimation(int T_orbit, double batt_E[], double P_solar[
 		curr_Energy = 0;
 	}
 	//-----------(end Battery Control)------------------
-
 	//P_est update
+
 	//Equation is counter to Kalman filter documentation, using mean
 	//instead of max of solar power
 	P_wasted = k1 * P_wasted + (1 - k1) * sum_array(P_solar, sizeof(P_solar) / sizeof(P_solar[0])) / (sizeof(P_solar)/sizeof(P_solar[0])) * solar_eff - lastPower;

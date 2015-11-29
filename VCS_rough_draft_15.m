@@ -307,6 +307,7 @@ while n <= length(X_t) + 1
             %commented out. This currently crashes Matlab.
             
             [~,P_est] = NextPower(inputArray.batt_E, inputArray.P_solar, inputArray.inc_I, inputArray.load_I, inputArray.batt_I, inputArray.batt_V, lastPower, Orbital_Period);
+            disp(['P_est sent into Interperet_DC = ',num2str(P_est)]);%###
             disp(['n = ',num2str(n)]);
             disp(['P_est = ',num2str(P_est)]); %###
             %End testing c code here
@@ -329,7 +330,7 @@ while n <= length(X_t) + 1
         break
     end
     %%%%%%
-    disp(['P_est sent into Interperet_DC = ',num2str(P_est)]);%###
+    %disp(['P_est sent into Interperet_DC = ',num2str(P_est)]);%###
     DDC = Interperet_DC(P_est);
     
     Y_c(n) = Y_c(n-1) + (net_power(n) * x_res);

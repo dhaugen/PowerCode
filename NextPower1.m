@@ -31,7 +31,7 @@ function [P_est testResults powerStats] = NextPower1(tState, lastPower)
     
     % Weight Coefficients
     % k1 Balance between measured, and derived value of power wasted
-	  k1 = 0.95;
+	  k1 = 0.9;
     % k2 Balance between measured, and derived value of battery energy
       k2 = 0.8;
     % k3 Weight for the effect of battery energy measured vs estimated
@@ -43,7 +43,7 @@ function [P_est testResults powerStats] = NextPower1(tState, lastPower)
     % k6 Coefficent to control the responsivness based on under use
       k6 = 0.9;
     % k7 Coefficient to control the reponsivness based on over use
-      k7 = 0.9;
+      k7 = 0.0;
     % k8 Controls the response to the accuracy of last power prediciton
       k8 = 0.1;
 
@@ -91,6 +91,7 @@ function [P_est testResults powerStats] = NextPower1(tState, lastPower)
 
         if V_solar >= 16 && currentDraw + currentIn < 0
             wasted(i) = State(i).batt_V * -(currentIn + currentDraw);
+            % Review why this is happening (below statement)
             if i > 1
                 State(i).P_solar = State(i-1).P_solar;
             end
@@ -113,15 +114,22 @@ function [P_est testResults powerStats] = NextPower1(tState, lastPower)
     % Checking the discrepency between energies to find a Next orbit
     % modifier, P_est is being assumed as what is being used and not
     % what the other half of the program would return as used
+    
+    % batt_eff is being applied to entire last orbit, should only be
+    % applied to the portion that the battery is being used in.
     E_dis = curr_Energy + (sum([State.P_solar] * 60 * solar_eff) - ... 
         lastPower*60*T_orbit/conv_eff) * batt_eff;
     overdrawn_mod = 0;
     
     % Determines if energy was overspent and converts that
     % value into an orbital power correction.
-    if E_dis < Full_Charge
+    if E_dis < Full_Charge * 0.95
         overdrawn_mod = (E_dis - Full_Charge)/(T_orbit * 60);
     end
+    
+    
+    a=sum([State.P_solar] * 60 * solar_eff)
+    b=lastPower*60*T_orbit/conv_eff * batt_eff
     
     % Updates current energy as well as imposes physical limits of the
     % battery on the calculated value.  Wasted amounts of energy are
