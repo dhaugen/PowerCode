@@ -1,5 +1,8 @@
 Filter Task List
 
+VCS_rough_draft_14 - Currently the cutoff for Matlab simulation
+VCS_rough_draft_15 - start of C code implementation
+
 NEED to set a complete task list, as the filter has had a lot of work on it, a list of items to the first full
 version of the code should be possible.
 
